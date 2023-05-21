@@ -2,7 +2,8 @@
     "name": "Legend of Gandalf",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-tile-util": "github:microsoft/arcade-tile-util#v1.0.1"
     },
     "files": [
         "main.blocks",
@@ -10,13 +11,15 @@
         "README.md",
         "assets.json",
         "tilemap.g.jres",
-        "tilemap.g.ts"
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.26",
+        "target": "1.12.30",
         "targetId": "arcade"
     },
     "supportedTargets": [
@@ -31,9 +34,9 @@
         "#ed6c45",
         "#e8c961",
         "#6a6d6e",
-        "#7cba65",
+        "#422904",
         "#436994",
-        "#93b7cf",
+        "#995502",
         "#b5dea4",
         "#5f7556",
         "#a89480",
