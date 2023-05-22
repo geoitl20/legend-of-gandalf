@@ -20,7 +20,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     playerSprite,
     assets.animation`Tauriel_knife`,
-    100,
+    200,
     false
     )
     swordOut = 1
@@ -38,7 +38,16 @@ function loadLevel () {
     }
     if (Level == 5051) {
         tiles.setCurrentTilemap(tilemap`level5051`)
-        enemyList = [sprites.create(assets.image`enemyDog`, SpriteKind.Enemy), sprites.create(assets.image`enemyMonkey`, SpriteKind.Enemy)]
+        enemyList = [
+        sprites.create(assets.image`enemyDog`, SpriteKind.Enemy),
+        sprites.create(assets.image`enemyMonkey`, SpriteKind.Enemy),
+        sprites.create(assets.image`hermitCrabAttack0`, SpriteKind.Enemy),
+        sprites.create(assets.image`kaijuBabyWalk4`, SpriteKind.Enemy),
+        sprites.create(assets.image`kaijuMomWalk5`, SpriteKind.Enemy),
+        sprites.create(assets.image`pigeonIcon`, SpriteKind.Enemy),
+        sprites.create(assets.image`skellyAttackLeft2`, SpriteKind.Enemy),
+        sprites.create(assets.image`footballPlayer0`, SpriteKind.Enemy)
+        ]
         enemyX = [30, 100]
         enemyY = [30, 60]
     }
