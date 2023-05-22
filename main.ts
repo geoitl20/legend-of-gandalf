@@ -14,9 +14,15 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (lastDirection == 3) {
         projectile = sprites.createProjectileFromSprite(assets.image`Fireball`, playerSprite, 0, 100)
     }
+    music.play(music.melodyPlayable(music.sonar), music.PlaybackMode.UntilDone)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    playerSprite.setImage(assets.image`myHeroSword`)
+    animation.runImageAnimation(
+    playerSprite,
+    assets.animation`Tauriel_knife`,
+    100,
+    false
+    )
     swordOut = 1
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -65,7 +71,6 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     lastDirection = 0
 })
 controller.A.onEvent(ControllerButtonEvent.Released, function () {
-    playerSprite.setImage(assets.image`myHero`)
     swordOut = 0
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -73,31 +78,44 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.fire, 500)
+    music.play(music.melodyPlayable(music.buzzer), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (swordOut == 0) {
-    	
+    if (swordOut == 0 && Wait_time < 0) {
+        statusbar.value += -20
+        Wait_time = 100
+        music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
     } else {
-        sprites.destroy(otherSprite, effects.spray, 500)
+        if (swordOut == 1) {
+            sprites.destroy(otherSprite, effects.spray, 500)
+            music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+        }
     }
 })
 let enemyY: number[] = []
 let enemyX: number[] = []
 let projectile: Sprite = null
+let Wait_time = 0
 let swordOut = 0
 let enemyList: Sprite[] = []
+let statusbar: StatusBarSprite = null
 let playerSprite: Sprite = null
 let Level = 0
 let lastDirection = 0
 lastDirection = 0
 Level = 5050
-playerSprite = sprites.create(assets.image`myHero`, SpriteKind.Player)
+playerSprite = sprites.create(assets.image`Tauriel_front`, SpriteKind.Player)
+statusbar = statusbars.create(20, 4, StatusBarKind.Health)
+statusbar.positionDirection(CollisionDirection.Top)
+statusbar.value = 100
+statusbar.setColor(10, 4)
 controller.moveSprite(playerSprite, 100, 100)
 enemyList = []
 loadLevel()
 tiles.placeOnTile(playerSprite, tiles.getTileLocation(5, 3))
 scene.cameraFollowSprite(playerSprite)
 swordOut = 0
+Wait_time = 0
 forever(function () {
     if (playerSprite.tilemapLocation().column < 1) {
         Level += -1
@@ -115,4 +133,8 @@ forever(function () {
         Level += 100
         loadLevel()
     }
+    if (statusbar.value == 0) {
+        game.gameOver(false)
+    }
+    Wait_time += -5
 })
